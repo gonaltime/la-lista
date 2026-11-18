@@ -1,5 +1,5 @@
 // Keeps the app shell available so it opens instantly; list data always comes fresh from the server.
-const CACHE = "la-lista-v1";
+const CACHE = "la-lista-v2";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {

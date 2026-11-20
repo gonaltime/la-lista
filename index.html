@@ -43,7 +43,7 @@
   .ticket{height:10px;margin:14px 0 6px;
     background:radial-gradient(circle at 6px -2px,transparent 6px,var(--line) 6.5px) 0 0/12px 10px repeat-x}
 
-  main{flex:1;padding-bottom:200px}
+  main.wrap{flex:1;padding-bottom:calc(var(--dock-h,300px) + 32px)}
   ul{list-style:none;margin:0;padding:0}
   li{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
     border-radius:16px;padding:12px 8px 12px 12px;margin:8px 0;cursor:pointer;user-select:none;-webkit-user-select:none;
@@ -154,7 +154,7 @@
     </div>
   </main>
 
-  <div class="dock">
+  <div class="dock" id="dock">
     <div class="wrap">
       <div id="cartbar"><span id="cartText"></span><button id="finish" type="button">Terminar compra ✓</button></div>
       <div class="chips" id="chips"></div>
@@ -449,6 +449,12 @@
   window.addEventListener("online", refresh);
   setInterval(() => { if (!document.hidden) refresh(); }, 20000);
   setInterval(() => { if (items.length && !document.hidden) render(); }, 60000);
+
+  // keep the list's bottom space equal to the real height of the bottom bar
+  const fitDock = () => document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px");
+  if (window.ResizeObserver) new ResizeObserver(fitDock).observe($("dock"));
+  window.addEventListener("resize", fitDock);
+  fitDock();
 
   renderChips();
   if (CODE){ setCode(CODE); start(); }
